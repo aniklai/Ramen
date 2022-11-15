@@ -20,6 +20,8 @@ namespace Ramen
         {
             InitializeComponent();
             LoadData("ramen.csv");
+            GetCountries();
+            listCountries.DisplayMember = "Name";
         }
         private void LoadData(string fileName)
         {
@@ -86,11 +88,15 @@ namespace Ramen
         }
         private void GetCountries()
         {
-            var countriesList = from c in countries
-                                 where c.Name.Equals(txtCountryFilter.Text)
-                                 orderby c.Name
-                                 select c;
-            listCountries.DataSource = countriesList.ToList();
+           // var countriesList = from c in countries
+           //                      where c.Name.Contains(txtCountryFilter.Text)
+           //                      orderby c.Name
+           //                      select c;
+           // listCountries.DataSource = countriesList.ToList();
+
+            listCountries.DataSource = (from c in countries
+                                    where c.Name.Contains(txtCountryFilter.Text)
+                                    select c).ToList();
         }
 
         private void txtCountryFilter_TextChanged(object sender, EventArgs e)
